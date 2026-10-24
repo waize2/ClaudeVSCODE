@@ -12,6 +12,7 @@ Automatisation du point d'accès mobile Windows selon la cédule A de l'utilisat
 ## Règles métier
 
 - Cédule A : `(date - 2026-10-06).Days % 14` entre 0 et 7 inclus (8 jours, mardi au mardi). Hors cédule : ne rien faire, ni On ni Off.
+- Le même cycle est copié dans `..\deconnexion-claude\deconnecter-sortie-cedule.ps1` : si `$debutCycle` change, le changer aussi là-bas.
 - Plage active : 07:30–17:13, hors dîner 11:30–12:20. Jour 0 (mardi d'entrée) : début à 13:30. Jour 7 (mardi de sortie) : fin à 09:45.
 - On n'agit que dans la plage active, Off seulement en dehors. Une tâche rattrapée en retard ne coupe donc pas le hotspot en pleine plage. Un Off lancé à la main pendant la plage ne fait rien.
 - Le script ne garde aucun état (pas de fichier d'état) : un arrêt manuel par l'utilisateur ne bloque jamais la prochaine tâche On. Garder ce principe.

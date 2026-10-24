@@ -1,7 +1,6 @@
-# Arrete et supprime la tache de surveillance (le script et le journal restent en place)
-$nom = 'Deconnexion Claude - Surveillance VS Code'
-if (Get-ScheduledTask -TaskName $nom -ErrorAction SilentlyContinue) {
-    Stop-ScheduledTask -TaskName $nom
-    Unregister-ScheduledTask -TaskName $nom -Confirm:$false
-    "Supprimee : $nom"
+# Arrete et supprime les 2 taches de deconnexion de Claude (les scripts et le journal restent en place)
+Get-ScheduledTask -TaskName 'Deconnexion Claude*' -ErrorAction SilentlyContinue | ForEach-Object {
+    Stop-ScheduledTask -TaskName $_.TaskName
+    Unregister-ScheduledTask -TaskName $_.TaskName -Confirm:$false
+    "Supprimee : $($_.TaskName)"
 }
