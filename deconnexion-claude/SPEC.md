@@ -4,9 +4,9 @@
 
 ## Objectif
 
-Claude Code ne reste pas connecté quand VS Code n'est pas ouvert : la connexion est retirée à la fermeture de VS Code.
+Claude Code ne reste pas connecté quand il ne doit pas l'être : à la fermeture de VS Code, le mardi de sortie de la cédule A à 10:55, et pendant toute la cédule B.
 
-- **Dans la portée :** fermeture normale de VS Code, arrêt ou redémarrage du PC avec VS Code ouvert.
+- **Dans la portée :** fermeture normale de VS Code, arrêt ou redémarrage du PC avec VS Code ouvert, mardi de sortie, jours de cédule B.
 - **Hors portée :** fermeture d'un onglet ou d'une conversation Claude dans VS Code, Claude Code utilisé dans un terminal hors VS Code.
 
 ## Fonctionnement
@@ -18,9 +18,10 @@ Claude Code ne reste pas connecté quand VS Code n'est pas ouvert : la connexion
 | VS Code fermé puis rouvert en moins de 3 s (relance par une mise à jour) | Rien, le journal le note |
 | Mardi à 10:55, jour 7 du cycle (mardi de sortie de la cédule A) | Déconnexion, même si VS Code est ouvert |
 | Mardi à 10:55, jour 0 (mardi d'entrée) | Rien, le journal le note |
+| Pendant la cédule B (jours 8 à 13 du cycle) | Déconnexion, vérifiée chaque minute, même si VS Code est ouvert |
 | Déjà déconnecté | Rien, le journal note « deja deconnecte » |
 
-Cédule A : jour du cycle = (date − 2026-10-06) en jours, modulo 14 ; même règle que `hotspot-cedule\hotspot.ps1`. Prochains mardis de sortie : 27 oct., 10 nov., 24 nov. 2026.
+Cédule A : jour du cycle = (date − 2026-10-06) en jours, modulo 14 ; même règle que `hotspot-cedule\hotspot.ps1`. Jours 0 à 7 = cédule A, jours 8 à 13 = cédule B. Prochains mardis de sortie : 27 oct., 10 nov., 24 nov. 2026 ; cédules B : 14–19 oct., 28 oct.–2 nov., 11–16 nov. 2026.
 
 La déconnexion appelle `claude auth logout` (`%APPDATA%\npm\claude.cmd`), seulement si `claude auth status` répond connecté (code 0). Elle retire la connexion stockée dans `%USERPROFILE%\.claude\.credentials.json`, partagée par l'extension VS Code et le CLI.
 

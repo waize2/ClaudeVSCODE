@@ -11,6 +11,8 @@ Une tâche planifiée lance `surveiller-vscode.ps1` en arrière-plan à l'ouvert
 
 Claude est aussi déconnecté le **mardi de sortie de la cédule A, à 10:55**, même si VS Code est ouvert. Une tâche tourne chaque mardi à 10:55, mais n'agit que le mardi de sortie (jour 7 du cycle de 14 jours commencé le 2026-10-06).
 
+Enfin, **pendant toute la cédule B** (les 6 jours hors cédule A, jours 8 à 13 du cycle), Claude est maintenu déconnecté : la surveillance vérifie chaque minute et déconnecte si une session est ouverte ces jours-là.
+
 ## Fichiers
 
 | Fichier | Rôle |
