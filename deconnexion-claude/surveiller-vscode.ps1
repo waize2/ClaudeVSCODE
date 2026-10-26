@@ -31,7 +31,11 @@ while ($true) {
     if ($avant -and -not $ouvert) {
         Log 'VS Code ferme'
         Start-Sleep $grace
-        if (VSCodeOuvert) { Log "rouvert en moins de $grace s : pas de deconnexion"; $ouvert = $true } else { Deconnecter 'VS Code ferme' }
+        if (VSCodeOuvert) { Log "rouvert en moins de $grace s : pas de deconnexion"; $ouvert = $true }
+        else {
+            Deconnecter 'VS Code ferme'
+            try { & (Join-Path $PSScriptRoot 'deconnecter-comptes-edge.ps1') -Log $log } catch { Log "echec deconnexion Edge : $($_.Exception.Message)" }
+        }
     }
     $avant = $ouvert
 

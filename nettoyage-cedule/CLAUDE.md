@@ -11,7 +11,7 @@ Nettoie le poste le mardi de sortie de la cédule A (confidentialité sur poste 
 ## Technique
 
 - Poste `DESKTOP-253TOSF`, utilisateur `test1`, **membre des administrateurs mais non élevé** par défaut. Enregistrer une tâche `RunLevel Highest` exige une élévation : `installer-tache.ps1` doit être lancé via `Start-Process -Verb RunAs` (pas de mot de passe demandé, l'utilisateur est admin).
-- Edge = profil `Default` seulement ici ; fichiers à effacer sous `%LOCALAPPDATA%\Microsoft\Edge\User Data\<profil>\`. Cookies/Login Data sont aussi sous `...\Network\`.
+- Edge : la réinitialisation est déléguée à `..\deconnexion-claude\deconnecter-comptes-edge.ps1` (remise à zéro complète des profils). Ne pas dupliquer la logique Edge ici. Dépendance entre les deux projets : si l'un bouge, vérifier le chemin relatif.
 - `PasswordVault.RetrieveAll()` renvoie un objet COM : `.Count` n'est lisible qu'après `@(...)`.
 - `cmdkey /delete:<nom>` attend le nom SANS le préfixe de type (`target=` retiré).
 - `wevtutil cl <journal>` exige l'élévation. Sans admin, le script saute cette étape et le note.

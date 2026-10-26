@@ -6,7 +6,7 @@
 
 Claude Code ne reste pas connecté quand il ne doit pas l'être : à la fermeture de VS Code, le mardi de sortie de la cédule A à 10:55, et pendant toute la cédule B.
 
-- **Dans la portée :** fermeture normale de VS Code, arrêt ou redémarrage du PC avec VS Code ouvert, mardi de sortie, jours de cédule B.
+- **Dans la portée :** fermeture normale de VS Code, arrêt ou redémarrage du PC avec VS Code ouvert, mardi de sortie, jours de cédule B. À la fermeture de VS Code, déconnexion aussi des comptes Edge (web, mots de passe, profil Microsoft/Hotmail).
 - **Hors portée :** fermeture d'un onglet ou d'une conversation Claude dans VS Code, Claude Code utilisé dans un terminal hors VS Code.
 
 ## Fonctionnement
@@ -14,7 +14,7 @@ Claude Code ne reste pas connecté quand il ne doit pas l'être : à la fermetur
 | Événement | Action |
 | --- | --- |
 | Ouverture de session Windows | La tâche démarre `surveiller-vscode.ps1` ; si VS Code est fermé, déconnexion immédiate |
-| VS Code fermé (plus aucun processus `Code`, vérifié toutes les 2 s) | Attente de 3 s ; si VS Code est toujours fermé, déconnexion |
+| VS Code fermé (plus aucun processus `Code`, vérifié toutes les 2 s) | Attente de 3 s ; si VS Code est toujours fermé, déconnexion de Claude + fermeture d'Edge et remise à zéro de ses profils (`deconnecter-comptes-edge.ps1`) |
 | VS Code fermé puis rouvert en moins de 3 s (relance par une mise à jour) | Rien, le journal le note |
 | Mardi à 10:55, jour 7 du cycle (mardi de sortie de la cédule A) | Déconnexion, même si VS Code est ouvert |
 | Mardi à 10:55, jour 0 (mardi d'entrée) | Rien, le journal le note |

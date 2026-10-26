@@ -6,12 +6,12 @@ Confidentialité sur un poste partagé. Chaque mardi de sortie de la cédule A, 
 
 | Catégorie | Détail |
 | --- | --- |
-| Edge (profil Default) | Historique, sites visités, raccourcis, prédictions, cookies, sessions, mots de passe enregistrés |
+| Edge (tous les profils) | Remise à zéro complète : comptes web, mots de passe, cookies, synchro, favoris, extensions (via `..\deconnexion-claude\deconnecter-comptes-edge.ps1`) |
 | Identifiants Windows | Tout sauf ceux du compte Microsoft (p. ex. `git:https://github.com` est effacé) |
 | Identifiants Web | Tous (aucun à l'origine) |
 | Journaux Windows | Application, Sécurité, Système |
 
-Edge est fermé de force s'il est ouvert, pour pouvoir effacer ses fichiers.
+Edge est fermé de force s'il est ouvert, pour pouvoir réinitialiser ses profils. La partie Edge est partagée avec le projet `deconnexion-claude`, qui fait la même chose à chaque fermeture de VS Code.
 
 ## Quand
 

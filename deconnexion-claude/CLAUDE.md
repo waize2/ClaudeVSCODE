@@ -10,6 +10,7 @@ Déconnecte Claude Code quand VS Code est fermé. Répondre en français.
 - Mardi de sortie de la cédule A (jour 7, cycle de 14 jours depuis 2026-10-06) : déconnexion à 10:55 par `deconnecter-sortie-cedule.ps1`. Même `$debutCycle` que `hotspot-cedule\hotspot.ps1` et `..\nettoyage-cedule` : toujours changer les trois.
 - Cédule B = jours 8 à 13 du cycle. `surveiller-vscode.ps1` vérifie chaque minute (`$verifB`) et déconnecte ces jours-là, en mode discret (pas de ligne « deja deconnecte » à répétition dans le journal).
 - Pas de hook SessionEnd de Claude Code : il se déclenche aussi à la fin d'une conversation, pas seulement à la fermeture de VS Code.
+- À la fermeture de VS Code, `surveiller-vscode.ps1` appelle `deconnecter-comptes-edge.ps1` (même dossier) : ferme Edge (`taskkill /IM msedge.exe /F`) et supprime les dossiers de profil (`Default`, `Profile *`) sous `%LOCALAPPDATA%\Microsoft\Edge\User Data` — Edge les recrée propres. Remise à zéro complète (favoris/extensions perdus), choix de l'utilisateur. Ce script est aussi appelé par `..\nettoyage-cedule`. Pas besoin d'admin (fichiers de l'utilisateur).
 
 ## Tester sans se déconnecter
 

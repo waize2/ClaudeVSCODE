@@ -14,13 +14,8 @@ $journauxWindows = 'Application', 'Security', 'System'
 # Identifiants Windows a GARDER : ceux du compte Microsoft, necessaires a Windows. Tout le reste est efface.
 $credentialsGardes = '(MicrosoftAccount:|WindowsLive:|LegacyGeneric:target=MicrosoftAccount:)'
 
-# Fichiers effaces dans chaque profil Edge : historique, sites visites, cookies/sessions, mots de passe enregistres
-$fichiersEdge = @(
-    'History', 'History-journal', 'Visited Links', 'Top Sites', 'Top Sites-journal',
-    'Shortcuts', 'Shortcuts-journal', 'Network Action Predictor', 'Network Action Predictor-journal',
-    'Network\Cookies', 'Network\Cookies-journal', 'Sessions', 'Session Storage',
-    'Login Data', 'Login Data-journal', 'Login Data For Account', 'Login Data For Account-journal'
-)
+# Edge : la reinitialisation des profils est faite par le script partage de deconnexion-claude
+$edgeScript = Join-Path $PSScriptRoot '..\deconnexion-claude\deconnecter-comptes-edge.ps1'
 
 $mode = if ($Simulation) { 'SIMULATION' } else { 'NETTOYAGE' }
 function Log($m) { "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  $mode  $m" | Out-File $log -Append -Encoding utf8 }
@@ -33,20 +28,10 @@ $jourCycle = (((Get-Date).Date - $debutCycle).Days % 14 + 14) % 14
 if (-not $Simulation -and $jourCycle -ne 7) { Log "jour $jourCycle du cycle : pas le mardi de sortie, rien a faire"; exit }
 Log "debut (jour $jourCycle du cycle)"
 
-# 1. Edge doit etre ferme pour qu'on puisse effacer ses fichiers
-$userData = Join-Path $env:LOCALAPPDATA 'Microsoft\Edge\User Data'
-if (Test-Path $userData) {
-    if (Get-Process msedge -ErrorAction SilentlyContinue) {
-        if ($Simulation) { Log 'fermerait Edge' } else { Stop-Process -Name msedge -Force; Start-Sleep 5; Log 'Edge ferme' }
-    }
-    $profils = Get-ChildItem $userData -Directory | Where-Object { $_.Name -eq 'Default' -or $_.Name -like 'Profile *' }
-    foreach ($p in $profils) {
-        foreach ($f in $fichiersEdge) {
-            $chemin = Join-Path $p.FullName $f
-            if (Test-Path $chemin) { Agir "Edge $($p.Name)\$f" { Remove-Item $chemin -Recurse -Force -ErrorAction Stop } }
-        }
-    }
-} else { Log 'Edge absent' }
+# 1. Edge : fermeture + reinitialisation complete des profils (comptes, mots de passe, cookies, synchro)
+if (Test-Path $edgeScript) {
+    if ($Simulation) { & $edgeScript -Simulation -Log $log } else { & $edgeScript -Log $log }
+} else { Log "script Edge introuvable : $edgeScript" }
 
 # 2. Identifiants Windows : tout ce qui n'est pas le compte Microsoft
 $cibles = cmdkey /list | ForEach-Object { if ($_ -match 'Target:\s*(.+?)\s*$') { $Matches[1] } }

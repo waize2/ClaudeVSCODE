@@ -17,12 +17,12 @@ Tâche « Nettoyage Cedule - Mardi Sortie », chaque mardi à 8h30, rattrapage s
 
 | Catégorie | Détail | Gardé |
 | --- | --- | --- |
-| Edge (profils Default et Profile *) | History, Visited Links, Top Sites, Shortcuts, Network Action Predictor, Cookies, Sessions, Session Storage, Login Data (+ variantes) | — |
+| Edge (profils Default et Profile *) | Remise à zéro complète du profil (comptes web, mots de passe, cookies, synchro, favoris) via `..\deconnexion-claude\deconnecter-comptes-edge.ps1` | — |
 | Identifiants Windows | Tout sauf compte Microsoft | `MicrosoftAccount:`, `WindowsLive:`, `LegacyGeneric:target=MicrosoftAccount:` |
 | Identifiants Web (PasswordVault) | Tous | — |
 | Journaux Windows | Application, Security, System | les autres journaux |
 
-Edge est arrêté (`Stop-Process msedge`) avant d'effacer ses fichiers.
+La réinitialisation d'Edge est déléguée au script partagé `..\deconnexion-claude\deconnecter-comptes-edge.ps1`, appelé avec `-Log` sur le même journal (et `-Simulation` en simulation). Ce script ferme Edge puis supprime les dossiers de profil.
 
 ## Sécurité et vérification
 
